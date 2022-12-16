@@ -27,9 +27,13 @@ class CallingService : Service() {
 
     var rootView: View? = null
 
+//    @SuppressLint("NonConstantResourceId")
+//    @InjectView(R.id.txtText)
+//    var tv_call_number: TextView? = null
+
     @SuppressLint("NonConstantResourceId")
     @InjectView(R.id.txtText)
-    var tv_call_number: TextView? = null
+    var callNumber : TextView? = null
 
     private var windowManager: WindowManager? = null
 
@@ -142,8 +146,9 @@ class CallingService : Service() {
 
         if (!TextUtils.isEmpty(call_number)) {
             Log.d("세팅1", call_number.toString())
-            tv_call_number?.text = call_number
+            callNumber?.text = call_number
         }else {
+            // 번호 안찍힘
             Log.d("세팅2", call_number.toString())
         }
         return START_REDELIVER_INTENT

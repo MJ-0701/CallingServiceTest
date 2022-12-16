@@ -3,6 +3,7 @@
     android:background="#eeeeee"
     android:orientation="vertical"
     android:layout_width="300dp"
+    android:layout_gravity="center"
     android:layout_height="wrap_content">
 
     <!-- 타이틀바 -->
@@ -31,6 +32,7 @@
             android:id="@+id/txtText"
             android:textSize="15sp"
             android:textColor="#000"
+            android:text=""
             android:alpha="0.87"
             android:gravity="center"
             android:layout_marginBottom="3dp"

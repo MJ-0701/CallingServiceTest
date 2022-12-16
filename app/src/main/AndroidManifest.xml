@@ -35,6 +35,11 @@
             android:permission="android.permission.SYSTEM_ALERT_WINDOW"
         />
 
+        <service
+            android:name=".kotlin.MyService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW"
+            />
+
         <receiver
             android:name=".kotlin.IncomingCallBroadcastReceiver"
             android:exported="true"

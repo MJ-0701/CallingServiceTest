@@ -30,26 +30,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        checkPermission()
-        val toggleButton : ToggleButton = findViewById(R.id.toggleButton);
-        toggleButton.setOnClickListener(View.OnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {   // 마시멜로우 이상일 경우
-                if (!Settings.canDrawOverlays(this)) {              // 체크
-                    val intent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:$packageName")
-                    )
-                    startForegroundService(Intent(this@MainActivity, CallingService::class.java))
+        checkPermission()
+//        val toggleButton : ToggleButton = findViewById(R.id.toggleButton);
+//        toggleButton.setOnClickListener(View.OnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {   // 오레오 이상일 경우
+//                if (!Settings.canDrawOverlays(this)) {              // 체크
+//                    val intent = Intent(
+//                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//                        Uri.parse("package:$packageName")
+//                    )
+//                    startForegroundService(Intent(this@MainActivity, CallingService::class.java))
 //                    startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
-                } else {
-                    startService(Intent(this@MainActivity, CallingService::class.java))
-                }
-            } else {
-                startService(Intent(this@MainActivity, CallingService::class.java))
-            }
-
-        })
-
+//                } else {
+//                    // TODO :: 권한 없을시 로직
+//                }
+//            } else {
+//                startService(Intent(this@MainActivity, CallingService::class.java))
+//            }
+//
+//        })
 
         if (ContextCompat.checkSelfPermission(
                 this@MainActivity,
@@ -68,76 +67,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    fun checkPermission() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
-//            if (!Settings.canDrawOverlays(this)) {              // 다른앱 위에 그리기 체크
-//                val uri: Uri = Uri.fromParts("package", packageName, null)
-//                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri)
-//                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
-//
-//            } else {
-//                startMain()
-//            }
-//        } else {
-//            startMain()
-//        }
-//    }
-
-    fun checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {   // 마시멜로우 이상일 경우
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {   // 오레오 이상일 경우
             if (!Settings.canDrawOverlays(this)) {              // 체크
                 val intent = Intent(
                     Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:$packageName")
                 )
+                startForegroundService(Intent(this@MainActivity, CallingService::class.java))
                 startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
             } else {
-                startService(Intent(this@MainActivity, CallingService::class.java))
+                // TODO :: 권한 없을시 로직
             }
         } else {
             startService(Intent(this@MainActivity, CallingService::class.java))
         }
     }
-
-
-    @TargetApi(Build.VERSION_CODES.O)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
-            if (!Settings.canDrawOverlays(this)) {
-                // TODO 동의를 얻지 못했을 경우의 처리
-            } else {
-                startService(Intent(this@MainActivity, CallingService::class.java))
-            }
-        }
-    }
-
-    /* REQ_CODE_OVERLAY_PERMISSION는 임의로 정한 상수
-   onActivityResult(int requestCode, int resultCode, Intent data)에서 requestCode로 받을 때 사용함 */
-
-
-
-
-
-//    @TargetApi(Build.VERSION_CODES.M)
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
-//            if (!Settings.canDrawOverlays(this)) {
-//                finish()
-//            } else {
-//                startMain()
-//            }
-//        }
-//    }
-
-//    private fun startMain() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            startForegroundService(Intent(this, CallingService::class.java))
-//        }else {
-//            startService(Intent(this, CallingService::class.java))
-//        }
-//    }
 
 
 }
